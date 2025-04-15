@@ -1,0 +1,154 @@
+#include<iostream>
+#include <cstdlib>
+#include <ctime>    
+using namespace std;
+class single{
+    public:
+    string e[5] =  {"watch", "musician", "fruits", "laptop", "sports"};
+    string m[5] =  {"environment", "technology", "badminton", "madagascar", "australia"};
+    string h[5] =  {"united states", "engineering", "perspective", "volleyball", "maharashtra"};
+    string guessed_letters;
+    char ch;
+    int chances = 10;
+    string word;
+    void difficulty(){
+        char level;
+        cout<<"Enter the Difficulty level you want to play(e for easy, m for medium, h for hard) : ";
+        cin>>level;
+        check_difficulty(level);
+    }
+    void check_difficulty(char l){
+        if(l == 'e'){
+            srand(time(0));
+            int index = rand()% 5;
+            word=e[index];
+            blank_e(word);
+        }
+        else if(l == 'm'){
+            srand(time(0));
+            int index = rand()% 5;
+            word=m[index];
+            blank_m(word);
+        }
+        else if(l == 'h'){
+            srand(time(0));
+            int index = rand()% 5;
+            word=h[index];
+            blank_h(word);
+        }
+        else{
+            cout<<"You entered a wrong charecter. Try Again!!!"<<endl;
+            difficulty();
+        }
+        
+    }
+    void blank_e(string w){
+        for(int i=0;i<3;i++){
+            int len=w.length();
+            int in=rand() % len;
+            if(w[in]=='_'){
+                i--;
+            }
+            else{
+            w[in]='_';
+            }
+        }
+        cout<<"Here is your word with blanks. You have got 10 chances to guess it correctly. LET US BEGIN!!"<<endl;
+        cout<<w;
+        guessing(w);
+    }
+    void blank_m(string w){
+        for(int i=0;i<6;i++){
+            int len=w.length();
+            int in=rand() % len;
+            if(w[in]=='_'){
+                i--;
+            }
+            else{
+            w[in]='_';
+            }
+        }
+        cout<<"Here is your word with blanks. You have got 10 chances to guess it correctly. LET US BEGIN!!"<<endl;
+        cout<<w;
+        guessing(w);
+    }
+    void blank_h(string w){
+        for(int i=0;i<9;i++){
+            int len=w.length();
+            int in=rand() % len;
+            if(w[in]=='_'){
+                i--;
+            }
+            else{
+            w[in]='_';
+            }
+        }
+        cout<<"Here is your word with blanks. You have got 10 chances to guess it correctly. LET US BEGIN!!"<<endl;
+        cout<<w;
+        guessing(w);
+    }
+    void guessing(string Word){
+        while(chances>0 and word!=Word){
+            int len=word.length();
+            cout<<"\nPlease guess a letter : ";
+            cin>>ch;
+            chances-=1;
+            for(int i=0;i<guessed_letters.length();i++){
+                if (ch==guessed_letters[i]){
+                    cout<<"You have already guessed this letter before,         please try again"<<endl;
+                    chances+=1;
+                    guessing(Word);
+                }
+            }
+            guessed_letters+=ch;
+            for(int i=0;i<len;i++){
+                if(ch==word[i])
+                {
+                    Word[i]=ch;
+                }
+            }
+            cout<<"Edited word : "<<Word<<endl;;
+            cout<<"Chances left : "<<chances<<endl;
+            cout<<"Guessed letters : "<<guessed_letters<<endl;
+        }
+        if(Word==word){
+            cout<<"Whoooo...Congratulations you have won HANGMAN "<<endl;
+            cout<<"Would you like to play again?? 'y' for yes and 'n' for no"<<endl;
+            char c;
+            cin>>c;
+            if(c=='y'){
+                chances = 10;
+                guessed_letters = "";
+                difficulty();
+            }
+            else if(c=='n'){
+                cout<<"Thank you...HANGMAN hopes you have a good dayy!!!"<<endl;
+            }
+        }
+        else{
+            cout<<"oops...you've run out of chances....YOU LOOSE"<<endl;
+            cout<<"Would you like to play again?? 'y' for yes and 'n' for no"<<endl;
+            char c;
+            cin>>c;
+            if(c=='y'){
+                chances = 10;
+                guessed_letters = "";
+                difficulty();
+            }
+            else if(c=='n'){
+                cout<<"Thank you...HANGMAN hopes you have a good dayy!!!"<<endl;
+            }
+        }
+    }
+};
+int main(){
+    string name;
+    cout<<"==============================================\n";
+    cout<<"HANGMAN : THE GAME OF GUESSING MISSING LETTERS\n";
+    cout<<"==============================================\n";
+    cout<<"Enter your Name:";
+    cin>>name;
+    cout<<"Instructions : Save Yourself from being hanged by guessing the correct word.\n";
+    single s1;
+    s1.difficulty();
+}
